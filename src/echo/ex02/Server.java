@@ -1,4 +1,4 @@
-package echo.ex01;
+package echo.ex02;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,7 +16,12 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 
 		ServerSocket ServerSocket = new ServerSocket();
-		ServerSocket.bind(new InetSocketAddress("192.168.1.24", 10001));
+		
+//		집에서 쓴 ip
+//		ServerSocket.bind(new InetSocketAddress("192.168.1.24", 10001));
+		
+//		학원 ip
+		ServerSocket.bind(new InetSocketAddress("192.168.0.14", 10001));
 		
 		System.out.println("서버 시작합니다");
 		
@@ -37,20 +42,29 @@ public class Server {
 		BufferedWriter bw = new BufferedWriter(isw);
 		
 		
+		while (true) {
 //		메시지 받기- 서버단에서는 클라이언트의 문자열을 input 하는 개념
-		String msg = br.readLine();
-		System.out.println("받은 메시지 :" + msg);
+			String msg = br.readLine();
+			
+			if (msg == null) {
+				System.out.println("클라 종료키 /q 입력");
+				break;
+			}
+			System.out.println("받은 메시지 :" + msg);
+			
+//			메시지보내기
+			bw.write(msg);
+			bw.newLine();
+			bw.flush();
+			
+		}
 		
 		
-//		메시지보내기
-		bw.write(msg);
-		bw.newLine();
-		bw.flush();
 		
 		
 		
-		Socket.close();
-		ServerSocket.close();
+		
+		
 		
 	}
 
